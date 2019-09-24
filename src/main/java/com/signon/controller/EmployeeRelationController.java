@@ -1,0 +1,35 @@
+package com.signon.controller;
+
+import com.signon.model.EmployeeRelation;
+
+import com.signon.service.EmployeeRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@CrossOrigin
+@RestController
+public class EmployeeRelationController {
+
+    @Autowired
+    private EmployeeRelationService employeeRelationService;
+
+    @PostMapping("/saveemp")
+    public EmployeeRelation save(@RequestHeader(value = "Authorization") String token, @RequestBody EmployeeRelation employeeRelation){
+        return employeeRelationService.save(employeeRelation);
+    }
+
+    @GetMapping("/listemp")
+    public List<EmployeeRelation> list(@RequestHeader(value = "Authorization") String token){
+        return employeeRelationService.findAll();
+    }
+
+    @DeleteMapping("/deleteemp/{id}")
+    public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
+        employeeRelationService.deleteById(id);
+        return "Deleted Successfully";
+    }
+
+
+}
