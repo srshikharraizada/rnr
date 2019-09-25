@@ -35,13 +35,8 @@ public class UserInfo implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private RoleEnum role;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private DesignationEnum designation;
+
 
     @Column
     private Boolean firstSign=false;
@@ -67,9 +62,36 @@ public class UserInfo implements Serializable {
 
 
 
-//    public Set<EmployeeRelation> getEmployeeRelation() {
-//        return employeeRelation;
-//    }
+    //DESIGNATION
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "user_designation",
+            joinColumns = {@JoinColumn(name = "User_Id")},
+            inverseJoinColumns = {@JoinColumn(name = "Designation_Id")}
+    )
+    private Set<Designation> designation = new HashSet<>();
+
+
+
+
+    //ROLES
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = {@JoinColumn(name = "User_Id")},
+            inverseJoinColumns = {@JoinColumn(name = "roleid")}
+    )
+    private Set<Roles> roles = new HashSet<>();
 
 
 
@@ -85,8 +107,6 @@ public class UserInfo implements Serializable {
         this.uid = uid;
         this.email = email;
         this.name = name;
-        this.role = role;
-        this.designation = designation;
         this.firstSign = firstSign;
         this.imageUrl = imageUrl;
     }
@@ -130,25 +150,12 @@ public class UserInfo implements Serializable {
         this.firstSign = firstSign;
     }
 
-    public DesignationEnum getDesignation() {
-        return designation;
-    }
 
-    public void setDesignation(DesignationEnum designation) {
-        this.designation = designation;
-    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public RoleEnum getRole() {
-        return role;
-    }
-
-    public void setRole(RoleEnum role) {
-        this.role = role;
-    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -166,14 +173,30 @@ public class UserInfo implements Serializable {
         this.employeeRelation = employeeRelation;
     }
 
+
+    public Set<Designation> getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(Set<Designation> designation) {
+        this.designation = designation;
+    }
+
+
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
                 "uid=" + uid +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", role=" + role +
-                ", designation=" + designation +
                 ", firstSign=" + firstSign +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", employeeRelation=" + employeeRelation +

@@ -98,8 +98,6 @@ public class LoginServiceImpl implements LoginService {
                     userInfo1.setImageUrl(imageUrl);
                     userInfo1.setEmail(userInfo1.getEmail());
                     userInfo1.setName(userInfo1.getName());
-                    userInfo1.setRole(userInfo1.getRole());
-                    userInfo1.setDesignation(userInfo1.getDesignation());
 
                     userRepository.save(userInfo1);
 

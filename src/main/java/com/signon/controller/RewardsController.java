@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -20,12 +21,19 @@ public class RewardsController {
         return rewardsService.save(rewards);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/listrewards")
     public List<Rewards> list(@RequestHeader(value = "Authorization") String token){
         return rewardsService.findAll();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/listrewards/{id}")
+    public Optional<Rewards> getById(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
+
+        return rewardsService.findById(id);
+    }
+
+
+    @DeleteMapping("/deleterewards/{id}")
     public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
         rewardsService.deleteById(id);
         return "Deleted Successfully";

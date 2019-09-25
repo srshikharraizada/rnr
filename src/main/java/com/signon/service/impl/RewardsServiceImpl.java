@@ -64,7 +64,6 @@ public class RewardsServiceImpl implements RewardsService {
         Createaward1.setAward_status(createreward.getAward_status());
         Createaward1.setDiscontinuingDate(createreward.getDiscontinuingDate());
         Createaward1.setDiscontinuingReason(createreward.getDiscontinuingReason());
-        Createaward1.setCriterias(createreward.getCriterias());
         Createaward1.setSelf_nominate(createreward.isSelf_nominate());
         Createaward1.setNominations_allowed(createreward.getNominations_allowed());
 
@@ -83,7 +82,6 @@ public class RewardsServiceImpl implements RewardsService {
         Createaward1.setEnd_date(Createaward1.getEnd_date());
         Createaward1.setDiscontinuingDate(Createaward1.getDiscontinuingDate());
         Createaward1.setDiscontinuingReason(Createaward1.getDiscontinuingReason());
-        Createaward1.setCriterias(Createaward1.getCriterias());
         Createaward1.setSelf_nominate(Createaward1.isSelf_nominate());
         Createaward1.setNominations_allowed(Createaward1.getNominations_allowed());
         Createaward1.setAward_status(createreward.getAward_status());

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -33,10 +34,24 @@ public class LoginController {
     }
 
 
-    @GetMapping("/listUser")
+    @GetMapping("/listUsers")
     public List<UserInfo> listUser(@RequestHeader(value = "Authorization") String token){
         return loginService.findAll();
     }
+
+    @GetMapping("/listUsers/{id}")
+    public Optional<UserInfo> getById(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
+
+        return loginService.findById(id);
+    }
+
+
+    @DeleteMapping("/deleteUsers/{id}")
+    public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
+        loginService.deleteById(id);
+        return "Deleted Successfully";
+    }
+
 
     @GetMapping("/hey")
     public String hey(@RequestHeader(value = "Authorization") String token) throws Exception {

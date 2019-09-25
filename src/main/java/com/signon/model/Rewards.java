@@ -4,8 +4,9 @@ import com.signon.enums.FrequencyEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="rewards")
@@ -14,7 +15,8 @@ public class Rewards implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "Reward_Id",unique = true,nullable = false)
+    private long rewardId;
 
     @Column
     private String reward_name;
@@ -32,8 +34,6 @@ public class Rewards implements Serializable {
     @Column
     private Date end_date;
 
-    @Column
-    private String[] criterias;
 
     @Column
     private boolean self_nominate;
@@ -51,15 +51,31 @@ public class Rewards implements Serializable {
     private String discontinuingReason;
 
 
+    //CRITERIAS
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "rewards_criterias",
+            joinColumns = {@JoinColumn(name = "Reward_Id")},
+            inverseJoinColumns = {@JoinColumn(name = "Criterias_Id")}
+    )
+    private Set<Criterias> criterias = new HashSet<>();
+
+
+
     public Rewards() {
     }
 
     public long getId() {
-        return id;
+        return rewardId;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.rewardId = id;
     }
 
     public String getReward_name() {
@@ -102,13 +118,6 @@ public class Rewards implements Serializable {
         this.end_date = end_date;
     }
 
-    public String[] getCriterias() {
-        return criterias;
-    }
-
-    public void setCriterias(String[] criterias) {
-        this.criterias = criterias;
-    }
 
     public boolean isSelf_nominate() {
         return self_nominate;
@@ -151,16 +160,24 @@ public class Rewards implements Serializable {
     }
 
 
+    public Set<Criterias> getCriterias() {
+        return criterias;
+    }
+
+    public void setCriterias(Set<Criterias> criterias) {
+        this.criterias = criterias;
+    }
+
     @Override
     public String toString() {
         return "Rewards{" +
-                "id=" + id +
+                "id=" + rewardId +
                 ", reward_name='" + reward_name + '\'' +
                 ", frequency=" + frequency +
                 ", description='" + description + '\'' +
                 ", start_date=" + start_date +
                 ", end_date=" + end_date +
-                ", criterias=" + Arrays.toString(criterias) +
+
                 ", self_nominate=" + self_nominate +
                 ", nominations_allowed=" + nominations_allowed +
                 ", award_status='" + award_status + '\'' +
