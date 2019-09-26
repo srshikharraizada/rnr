@@ -2,6 +2,7 @@ package com.signon.controller;
 
 import com.signon.model.Rewards;
 import com.signon.service.RewardsService;
+import com.signon.utils.CheckValidity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +17,20 @@ public class RewardsController {
     @Autowired
     private RewardsService rewardsService;
 
+    @Autowired
+    private CheckValidity validity;
+
+
     @PostMapping("/save")
-    public Rewards save(@RequestHeader(value = "Authorization") String token, @RequestBody Rewards rewards){
-        return rewardsService.save(rewards);
+    public Rewards save(@RequestHeader(value = "Authorization") String token , @RequestBody Rewards rewards) throws Exception{
+
+        String email=validity.check(token);
+
+        rewardsService.save(rewards);
+
+        return rewards;
     }
+
 
     @GetMapping("/listrewards")
     public List<Rewards> list(@RequestHeader(value = "Authorization") String token){
