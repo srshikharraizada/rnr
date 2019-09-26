@@ -62,6 +62,7 @@ public class Rewards implements Serializable {
             name = "rewards_criterias",
             joinColumns = {@JoinColumn(name = "Reward_Id")},
             inverseJoinColumns = {@JoinColumn(name = "Criterias_Id")}
+
     )
     private Set<Criterias> criterias = new HashSet<>();
 
