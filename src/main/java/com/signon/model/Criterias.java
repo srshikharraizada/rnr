@@ -21,13 +21,40 @@ public class Criterias implements Serializable {
     private String criterias_desc;
 
 
+    //rewards
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
-                    CascadeType.PERSIST,
                     CascadeType.MERGE,
             },
             mappedBy = "criterias")
     private Set<Rewards> rewards1 = new HashSet<>();
+
+
+
+//
+//    //nominationscriterias
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE,
+//            },
+//            mappedBy = "criterias2")
+//    private Set<Nominations> nominations = new HashSet<>();
+//
+//
+
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            })
+//    @JoinTable(
+//            name = "nominations_criterias",
+//            joinColumns = {@JoinColumn(name = "Criterias_Id")},
+//            inverseJoinColumns = {@JoinColumn(name = "User_Id"),@JoinColumn(name = "Reward_Id")}
+//    )
+//    private Set<Nominations> nominations = new HashSet<>();
+
 
     public Criterias() {
     }
@@ -60,6 +87,14 @@ public class Criterias implements Serializable {
     public void setRewards1(Set<Rewards> rewards1) {
         this.rewards1 = rewards1;
     }
+
+//    public Set<Nominations> getNominations() {
+//        return nominations;
+//    }
+//
+//    public void setNominations(Set<Nominations> nominations) {
+//        this.nominations = nominations;
+//    }
 
     @Override
     public String toString() {

@@ -18,7 +18,7 @@ public class RewardsController {
 
     @PostMapping("/save")
     public Rewards save(@RequestHeader(value = "Authorization") String token, @RequestBody Rewards rewards){
-        return rewardsService.save(rewards);
+        return rewardsService.function(rewards);
     }
 
     @GetMapping("/listrewards")

@@ -1,10 +1,8 @@
 package com.signon.service.impl;
 
 
-import com.signon.model.Designation;
-import com.signon.model.Rewards;
+
 import com.signon.model.RewardsCriterias;
-import com.signon.repository.DesignationRepository;
 import com.signon.repository.RewardsCriteriasRepository;
 import com.signon.service.RewardsCriteriasService;
 import org.springframework.stereotype.Service;

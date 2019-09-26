@@ -25,4 +25,6 @@ public interface RewardsService {
 
     List<Rewards> findByRolled();
 
+    Rewards function(Rewards reward);
+
 }

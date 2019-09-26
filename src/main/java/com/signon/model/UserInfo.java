@@ -95,6 +95,20 @@ public class UserInfo implements Serializable {
 
 
 
+    //Nominations
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "nominations",
+            joinColumns = {@JoinColumn(name = "User_Id")},
+            inverseJoinColumns = {@JoinColumn(name = "Reward_Id")}
+    )
+    private Set<Rewards> rewards2 = new HashSet<>();
+
 
 
 
@@ -189,6 +203,15 @@ public class UserInfo implements Serializable {
 
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;
+    }
+
+
+    public Set<Rewards> getRewards2() {
+        return rewards2;
+    }
+
+    public void setRewards2(Set<Rewards> rewards2) {
+        this.rewards2 = rewards2;
     }
 
     @Override

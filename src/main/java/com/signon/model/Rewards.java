@@ -1,6 +1,7 @@
 package com.signon.model;
 
 import com.signon.enums.FrequencyEnum;
+import io.swagger.models.auth.In;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -42,7 +43,7 @@ public class Rewards implements Serializable {
     private int nominations_allowed;
 
     @Column
-    private String award_status;
+    private int award_status = 0;
 
     @Column
     private Date discontinuingDate;
@@ -55,7 +56,6 @@ public class Rewards implements Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
-                    CascadeType.PERSIST,
                     CascadeType.MERGE
             })
     @JoinTable(
@@ -66,6 +66,17 @@ public class Rewards implements Serializable {
     )
     private Set<Criterias> criterias = new HashSet<>();
 
+
+
+    //nominations
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+            },
+            mappedBy = "rewards2")
+    private Set<UserInfo> userInfo4 = new HashSet<>();
 
 
     public Rewards() {
@@ -136,11 +147,11 @@ public class Rewards implements Serializable {
         this.nominations_allowed = nominations_allowed;
     }
 
-    public String getAward_status() {
+    public int getAward_status() {
         return award_status;
     }
 
-    public void setAward_status(String award_status) {
+    public void setAward_status(int award_status) {
         this.award_status = award_status;
     }
 
@@ -167,6 +178,15 @@ public class Rewards implements Serializable {
 
     public void setCriterias(Set<Criterias> criterias) {
         this.criterias = criterias;
+    }
+
+
+    public Set<UserInfo> getUserInfo4() {
+        return userInfo4;
+    }
+
+    public void setUserInfo4(Set<UserInfo> userInfo4) {
+        this.userInfo4 = userInfo4;
     }
 
     @Override
