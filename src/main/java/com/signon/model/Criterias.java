@@ -16,7 +16,7 @@ public class Criterias implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Criterias_Id")
+    @Column(name = "criteria_Id")
     private long criteriaId;
 
     @Column(name="criterias_desc",nullable = false)
@@ -25,11 +25,16 @@ public class Criterias implements Serializable{
 
 
     @OneToMany(
-            mappedBy = "criterias",
-            cascade = CascadeType.MERGE
-    )
+            mappedBy = "criterias")
     private List<RewardsCriterias> rewards = new ArrayList<>();
 
+    public List<RewardsCriterias> getRewards() {
+        return rewards;
+    }
+
+    public void setRewards(List<RewardsCriterias> rewards) {
+        this.rewards = rewards;
+    }
 
 //
 //    //rewards
@@ -114,19 +119,6 @@ public class Criterias implements Serializable{
                 '}';
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Criterias tag = (Criterias) o;
-        return Objects.equals(criterias_desc, tag.criterias_desc);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(criterias_desc);
-    }
 
 
 

@@ -13,7 +13,7 @@ public class Rewards implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Reward_Id",unique = true,nullable = false)
+    @Column(name = "reward_id",unique = true,nullable = false)
     private long rewardId;
 
     @Column
@@ -50,10 +50,10 @@ public class Rewards implements Serializable {
 
 
     @OneToMany(
-            mappedBy = "rewards",
-            cascade = CascadeType.MERGE
+            mappedBy = "rewards"
     )
     private List<RewardsCriterias> criterias = new ArrayList<>();
+
 
 /*
     //CRITERIAS
@@ -267,25 +267,16 @@ public class Rewards implements Serializable {
                 '}';
     }
 
+   /* public void add(Tag tag) {
+        PostTag postTag = new PostTag(this, tag);
+        tags.add(postTag);
+        tag.getPosts().add(postTag);*/
+//    }
 
 
 
 
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Rewards rewards = (Rewards) o;
-        return Objects.equals(reward_name, rewards.reward_name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(reward_name);
-    }
 }

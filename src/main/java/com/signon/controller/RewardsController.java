@@ -3,6 +3,7 @@ package com.signon.controller;
 import com.signon.model.Rewards;
 import com.signon.service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +16,15 @@ public class RewardsController {
 
     @Autowired
     private RewardsService rewardsService;
+//
+//    public ResponseEntity<?> rewardsSave(@RequestHeader(value = "Authorization") String token, @RequestBody Rewards rewards){
+//    return rewardsService.rewardsSave(rewards);
+//    }
+
 
     @PostMapping("/save")
-    public Rewards save(@RequestHeader(value = "Authorization") String token, @RequestBody Rewards rewards){
-        return rewardsService.function(rewards);
+    public ResponseEntity<?> rewardsSave(@RequestHeader(value = "Authorization") String token, @RequestBody Rewards rewards){
+        return rewardsService.rewardsSave(rewards);
     }
 
     @GetMapping("/listrewards")

@@ -1,13 +1,17 @@
 package com.signon.service.impl;
 
+import com.signon.model.Criterias;
 import com.signon.model.Rewards;
 import com.signon.model.RewardsCriterias;
+import com.signon.model.RewardsCriteriasId;
 import com.signon.repository.RewardsCriteriasRepository;
 import com.signon.repository.RewardsRepository;
 import com.signon.service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -94,23 +98,73 @@ public class RewardsServiceImpl implements RewardsService {
         return update;
     }
 
+    public ResponseEntity<?> rewardsSave(Rewards rewards) {
+        Rewards rewardData= save(rewards);
+        long id = rewards.getId();
+
+        RewardsCriterias rewardsCriterias=new RewardsCriterias();
+        System.out.println(rewards.getCriterias().size());
+
+        for(int i=0; i<rewards.getCriterias().size(); i++){
+            rewardsCriterias = new RewardsCriterias();
+
+            rewardsCriterias.setRewardId(id);
+            rewardsCriterias.setCriteriaId(rewards.getCriterias().get(i).getCriteriaId());
+            rewardsCriterias.setCompulsory(rewards.getCriterias().get(i).getCompulsory());
+
+            rewardsCriteriasRepository.save(rewardsCriterias);
+        }
+
+        HashMap<String,Object> s=new HashMap<>();
+        s.put("criterias",rewardsCriterias);
+        s.put("rewards",rewards);
+        Object returnValue=s;
+        return ResponseEntity.ok(s);
+    }
+/*
+
     @Override
     public Rewards function(Rewards reward) {
         Rewards rewardData = save(reward);
         System.out.println("Reward:" + reward.getId());
-
-   /*     RewardsCriterias rewardsCriterias;
-
-        long id = reward.getId();
-
-        for (Iterator<RewardsCriterias> it = reward.getCriterias().iterator(); it.hasNext(); ) {
-            RewardsCriterias f = it.next();
-            System.out.println("Reward:" + f.getCriteriaId());
-
-            f.getCompulsory();
-        }
 */
 
+
+
+
+
+//        RewardsCriteriasId rewardsCriteriasId = new RewardsCriteriasId();
+//        System.out.println(reward.getCriterias().size());
+//
+///*        for(int i=0;i<reward.getCriterias().size();i++){
+//            rewardsCriterias = new RewardsCriterias();
+//
+//            rewardsCriterias.setCriterias(reward.getCriterias());
+//
+//        }*/
+//        RewardsCriterias rewardsCriterias;
+//
+//        long id = reward.getId();
+//
+//        for (Iterator<RewardsCriterias> it = reward.getCriterias().iterator(); it.hasNext(); ) {
+//            RewardsCriterias f = it.next();
+//            RewardsCriterias d = new RewardsCriterias();
+////            rewardsCriteriasId = new RewardsCriteriasId();
+//            System.out.println("Reward:" + f.getCriterias().getCriteriaId());
+//
+//            Criterias c = f.getCriterias();
+//            Rewards r = f.getRewards();
+//            Boolean b = f.getCompulsory();
+//
+//             new RewardsCriterias(r, c, b);
+
+//            d.setCriterias(f.getCriterias());
+
+
+//            rewardsCriteriasRepository.save(d);
+
+
+//        }
 
 
 //
@@ -128,12 +182,8 @@ public class RewardsServiceImpl implements RewardsService {
 ////        rewardsCriterias.setRewardId(reward.getId());
 //////        rewardsCriterias.setCriteriaId(rewardsCriterias1.);
 ////        System.out.println(" "+rewardsCriterias1.getClass());
+        }
+
+//            return save(reward);
 
 
-        return save(reward);
-
-
-    }
-
-
-}
