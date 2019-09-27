@@ -5,6 +5,7 @@ package com.signon.service.impl;
 import com.signon.model.RewardsCriterias;
 import com.signon.repository.RewardsCriteriasRepository;
 import com.signon.service.RewardsCriteriasService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Transactional
 public class RewardsCriteriasServiceImpl implements RewardsCriteriasService {
 
+    @Autowired
     RewardsCriteriasRepository rewardsCriteriasRepository;
 
 
@@ -28,7 +30,7 @@ public class RewardsCriteriasServiceImpl implements RewardsCriteriasService {
         return (List<RewardsCriterias>) rewardsCriteriasRepository.findAll();
     }
 
-    @Override
+/*    @Override
     public void deleteById(long id) {
 
         rewardsCriteriasRepository.deleteById(id);
@@ -37,5 +39,5 @@ public class RewardsCriteriasServiceImpl implements RewardsCriteriasService {
     @Override
     public Optional<RewardsCriterias> findById(Long rewardid) {
         return rewardsCriteriasRepository.findById(rewardid);
-    }
+    }*/
 }

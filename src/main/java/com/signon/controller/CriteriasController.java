@@ -18,7 +18,7 @@ public class CriteriasController {
 
     @PostMapping("/saveCriterias")
     public Criterias save(@RequestHeader(value = "Authorization") String token, @RequestBody Criterias criterias){
-        return criteriasService.save(criterias);
+        return criteriasService.saveCriteria(criterias);
     }
 
     @GetMapping("/listCriterias")

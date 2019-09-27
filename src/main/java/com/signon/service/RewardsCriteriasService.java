@@ -8,12 +8,12 @@ import java.util.Optional;
 
 public interface RewardsCriteriasService {
 
-    Optional<RewardsCriterias> findById(Long rewardId);
+  /*  Optional<RewardsCriterias> findById(Long rewardId);*/
 
     RewardsCriterias save(RewardsCriterias rewardsCriterias);
 
 
     List<RewardsCriterias> findAll();
 
-    void deleteById(long id);
+ /*   void deleteById(long id);*/
 }

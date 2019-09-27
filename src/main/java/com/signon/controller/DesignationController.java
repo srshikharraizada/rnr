@@ -28,6 +28,7 @@ public class DesignationController {
         return designationService.findAll();
     }
 
+
     @DeleteMapping("/deletedesignation/{id}")
     public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
         designationService.deleteById(id);

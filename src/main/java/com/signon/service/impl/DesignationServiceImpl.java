@@ -5,6 +5,7 @@ import com.signon.model.Designation;
 import com.signon.model.EmployeeRelation;
 import com.signon.repository.DesignationRepository;
 import com.signon.service.DesignationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class DesignationServiceImpl implements DesignationService {
-
+    //logger
+    @Autowired
     DesignationRepository designationRepository;
 
 

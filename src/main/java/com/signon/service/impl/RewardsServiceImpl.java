@@ -1,16 +1,16 @@
 package com.signon.service.impl;
 
-import com.signon.model.Criterias;
 import com.signon.model.Rewards;
 import com.signon.model.RewardsCriterias;
-import com.signon.repository.CriteriasRepository;
 import com.signon.repository.RewardsCriteriasRepository;
 import com.signon.repository.RewardsRepository;
 import com.signon.service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RewardsServiceImpl implements RewardsService {
@@ -99,19 +99,22 @@ public class RewardsServiceImpl implements RewardsService {
         Rewards rewardData = save(reward);
         System.out.println("Reward:" + reward.getId());
 
-        for (Iterator<Criterias> it = reward.getCriterias().iterator(); it.hasNext(); ) {
-            Criterias f = it.next();
-            System.out.println("Reward:" + f.getCriteriaId());
-
-
-
-        }
-
+   /*     RewardsCriterias rewardsCriterias;
 
         long id = reward.getId();
 
+        for (Iterator<RewardsCriterias> it = reward.getCriterias().iterator(); it.hasNext(); ) {
+            RewardsCriterias f = it.next();
+            System.out.println("Reward:" + f.getCriteriaId());
 
-        RewardsCriterias rewardsCriterias = new RewardsCriterias();
+            f.getCompulsory();
+        }
+*/
+
+
+
+//
+//        RewardsCriterias rewardsCriterias = new RewardsCriterias();
 
         /*for (long i = 0; i < reward.getCriterias().size(); i++) {
             rewardsCriterias = new RewardsCriterias();

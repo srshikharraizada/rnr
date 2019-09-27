@@ -1,9 +1,9 @@
 package com.signon.service.impl;
 
 import com.signon.model.Criterias;
-import com.signon.model.Designation;
 import com.signon.repository.CriteriasRepository;
 import com.signon.service.CriteriasService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +15,12 @@ import java.util.Optional;
 @Transactional
 public class CriteriasServiceImpl implements CriteriasService {
 
+    @Autowired
     CriteriasRepository criteriasRepository;
 
 
     @Override
-    public Criterias save(Criterias criterias) {
+    public Criterias saveCriteria(Criterias criterias) {
         return criteriasRepository.save(criterias);
     }
 

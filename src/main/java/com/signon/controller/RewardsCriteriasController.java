@@ -27,7 +27,7 @@ public class RewardsCriteriasController {
     public List<RewardsCriterias> list(@RequestHeader(value = "Authorization") String token){
         return rewardsCriteriasService.findAll();
     }
-
+/*
     @DeleteMapping("/deleteRewardsCriterias/{id}")
     public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
         rewardsCriteriasService.deleteById(id);
@@ -38,5 +38,5 @@ public class RewardsCriteriasController {
     public Optional<RewardsCriterias> getById(@RequestHeader(value = "Authorization") String token, @PathVariable Long rewardId){
 
         return rewardsCriteriasService.findById(rewardId);
-    }
+    }*/
 }

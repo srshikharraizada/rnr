@@ -1,48 +1,65 @@
 package com.signon.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "rewards_criterias")
-public class RewardsCriterias implements Serializable {
+public class RewardsCriterias{
 
-    @Id
-    @Column(name = "Reward_Id")
-    private long rewardid;
+    @EmbeddedId
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private RewardsCriteriasId id;
 
-    @Column(name = "Criterias_Id")
-    private long criteriaId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @MapsId("Reward_Id")
+    private Rewards rewards;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @MapsId("Criterias_Id")
+    private Criterias criterias;
 
     @Column(name = "isCompulsory")
     private Boolean isCompulsory;
 
+
     public RewardsCriterias() {
     }
 
-    public RewardsCriterias(long rewardId, long criteriaId, Boolean isCompulsory) {
-        this.rewardid = rewardId;
-        this.criteriaId = criteriaId;
-        this.isCompulsory = isCompulsory;
+    public RewardsCriterias(Rewards rewards, Criterias criterias) {
+        this.rewards = rewards;
+        this.criterias = criterias;
+        this.id = new RewardsCriteriasId(rewards.getId(), criterias.getCriteriaId());
     }
 
-    public long getRewardId() {
-        return rewardid;
+    public RewardsCriterias(Rewards rewards){
+        this.id=new RewardsCriteriasId(rewards.getId(),rewards.getCriterias(getCriteriaId()));
     }
 
-    public void setRewardId(long rewardId) {
-        this.rewardid = rewardId;
+    public RewardsCriteriasId getId() {
+        return id;
     }
 
-    public long getCriteriaId() {
-        return criteriaId;
+    public void setId(RewardsCriteriasId id) {
+        this.id = id;
     }
 
-    public void setCriteriaId(long criteriaId) {
-        this.criteriaId = criteriaId;
+    public Rewards getRewards() {
+        return rewards;
+    }
+
+    public void setRewards(Rewards rewards) {
+        this.rewards = rewards;
+    }
+
+    public Criterias getCriterias() {
+        return criterias;
+    }
+
+    public void setCriterias(Criterias criterias) {
+        this.criterias = criterias;
     }
 
     public Boolean getCompulsory() {
@@ -56,9 +73,28 @@ public class RewardsCriterias implements Serializable {
     @Override
     public String toString() {
         return "RewardsCriterias{" +
-                "rewardId=" + rewardid +
-                ", criteriaId=" + criteriaId +
+                "id=" + id +
+                ", rewards=" + rewards +
+                ", criterias=" + criterias +
                 ", isCompulsory=" + isCompulsory +
                 '}';
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        RewardsCriterias that = (RewardsCriterias) o;
+        return Objects.equals(rewards, that.rewards) &&
+                Objects.equals(criterias, that.criterias);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rewards, criterias);
     }
 }

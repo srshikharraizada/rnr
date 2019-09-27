@@ -1,9 +1,9 @@
 package com.signon.service.impl;
 
 import com.signon.model.Nominations;
-import com.signon.model.RewardsCriterias;
 import com.signon.repository.NominationsRepository;
 import com.signon.service.NominationsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +12,7 @@ import java.util.Optional;
 @Service
 public class NominationsServiceImpl implements NominationsService {
 
+    @Autowired
     NominationsRepository nominationsRepository;
 
 

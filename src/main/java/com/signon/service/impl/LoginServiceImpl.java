@@ -69,9 +69,9 @@ public class LoginServiceImpl implements LoginService {
         //data extracting
         JSONObject json = (JSONObject) new JSONParser().parse(responseString);
 
-        Set<String> keys = json.keySet();
+        Set keys = json.<String>keySet();
 
-        System.out.println(keys);
+        System.out.println(keys); // use logger
 
         String email = (String) json.get("email");
         System.out.println("" + email);
@@ -87,6 +87,7 @@ public class LoginServiceImpl implements LoginService {
         try {
 
         Optional<UserInfo> repoEmail = userRepository.findByemail(email);
+
 
         UserInfo userInfo1 = userRepository.findByemail(email).get();
 

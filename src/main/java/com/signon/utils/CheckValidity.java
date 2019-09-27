@@ -1,11 +1,9 @@
 package com.signon.utils;
 
 import com.signon.exception.InvalidTokenException;
-import com.signon.model.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,14 +12,14 @@ import java.util.Date;
 public class CheckValidity  {
 
 
-    private boolean isexpire;
+    private boolean isExpire;
 
-    private boolean getIsexpire() {
-        return isexpire;
+    private boolean getExpire() {
+        return isExpire;
     }
 
     private boolean setIsexpire(boolean isexpire) {
-        this.isexpire = isexpire;
+        this.isExpire = isexpire;
         return isexpire;
     }
 
@@ -45,11 +43,10 @@ public class CheckValidity  {
     }
 
     private Claims extract(String token) {
-        Claims claims = Jwts.parser()
+       return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
-        return claims;
     }
 
 
