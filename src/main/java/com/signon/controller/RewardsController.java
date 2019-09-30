@@ -34,11 +34,16 @@ public class RewardsController {
 
     @GetMapping("/listrewards")
     public List<Rewards> list(@RequestHeader(value = "Authorization") String token){
+
+        String email=validity.check(token);
+
         return rewardsService.findAll();
     }
 
     @GetMapping("/listrewards/{id}")
     public Optional<Rewards> getById(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
+
+        String email=validity.check(token);
 
         return rewardsService.findById(id);
     }
@@ -46,6 +51,9 @@ public class RewardsController {
 
     @DeleteMapping("/deleterewards/{id}")
     public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
+
+        String email=validity.check(token);
+
         rewardsService.deleteById(id);
         return "Deleted Successfully";
     }

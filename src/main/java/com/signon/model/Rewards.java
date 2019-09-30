@@ -1,9 +1,11 @@
 package com.signon.model;
 
+import com.signon.enums.CategoryEnum;
 import com.signon.enums.FrequencyEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,13 +28,18 @@ public class Rewards implements Serializable {
     private FrequencyEnum frequency;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private CategoryEnum category;
+
+
+    @Column
     private String description;
 
     @Column
-    private String start_date;
+    private LocalDate start_date;
 
     @Column
-    private String end_date;
+    private LocalDate end_date;
 
     @Column
     private boolean regenerated=true;
@@ -73,12 +80,12 @@ public class Rewards implements Serializable {
     public Rewards() {
     }
 
-    public long getId() {
+    public long getRewardId() {
         return rewardId;
     }
 
-    public void setId(long id) {
-        this.rewardId = id;
+    public void setRewardId(long rewardId) {
+        this.rewardId = rewardId;
     }
 
     public String getReward_name() {
@@ -105,19 +112,19 @@ public class Rewards implements Serializable {
         this.description = description;
     }
 
-    public String getStart_date() {
+    public LocalDate getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(String  start_date) {
+    public void setStart_date(LocalDate  start_date) {
         this.start_date = start_date;
     }
 
-    public String getEnd_date() {
+    public LocalDate getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(String end_date) {
+    public void setEnd_date(LocalDate end_date) {
         this.end_date = end_date;
     }
 
@@ -129,7 +136,13 @@ public class Rewards implements Serializable {
         this.regenerated = regenerated;
     }
 
+    public CategoryEnum getCategory() {
+        return category;
+    }
 
+    public void setCategory(CategoryEnum category) {
+        this.category = category;
+    }
 
     public boolean isSelf_nominate() {
         return self_nominate;

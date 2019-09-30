@@ -1,11 +1,13 @@
 package com.signon.service.impl;
 
+import com.signon.enums.FrequencyEnum;
 import com.signon.model.Rewards;
 import com.signon.repository.RewardsRepository;
 import com.signon.service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +17,30 @@ public class RewardsServiceImpl implements RewardsService {
     @Autowired
     private RewardsRepository rewardsRepository;
 
+
+    String[] monthName = {"January", "February",
+            "March", "April", "May", "June", "July",
+            "August", "September", "October", "November",
+            "December"};
+
+    Calendar cal = Calendar.getInstance();
+    String month = monthName[cal.get(Calendar.MONTH)];
+
+    String year = String.valueOf(cal.get(Calendar.YEAR));
+
     @Override
     public Rewards save(Rewards rewards) {
+
+        if(rewards.getFrequency()== FrequencyEnum.Annually)
+            rewards.setReward_name(rewards.getReward_name()+" for year " + year);
+
+        else
+            rewards.setReward_name(rewards.getReward_name()+" for month " + month);
+
         return rewardsRepository.save(rewards);
+
+
+
     }
 
     @Override

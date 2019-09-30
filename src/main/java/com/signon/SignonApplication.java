@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class SignonApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SignonApplication.class, args);
 	}
 

@@ -20,11 +20,10 @@ import java.util.stream.Collectors;
 public class UserInfo implements Serializable {
 
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "User_Id",unique = true,nullable = false)
-    private Long uid;
+    @Column(name = "User_Id", unique = true, nullable = false)
+    private String id;
 
     @NotNull
     @Email
@@ -35,23 +34,17 @@ public class UserInfo implements Serializable {
     @Column(nullable = false)
     private String name;
 
-
-
-
     @Column
-    private Boolean firstSign=false;
+    private Boolean firstSign = false;
 
     @Column
     private String imageUrl;
 
 
-
-
-
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
             })
     @JoinTable(
             name = "user_employeerelation",
@@ -59,7 +52,6 @@ public class UserInfo implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "EmployeeRelation_Id")}
     )
     private Set<EmployeeRelation> employeeRelation = new HashSet<>();
-
 
 
     //DESIGNATION
@@ -77,8 +69,6 @@ public class UserInfo implements Serializable {
     private Set<Designation> designation = new HashSet<>();
 
 
-
-
     //ROLES
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -94,17 +84,12 @@ public class UserInfo implements Serializable {
     private Set<Roles> roles = new HashSet<>();
 
 
-
-
-
-
-
     public UserInfo() {
 
     }
 
-    public UserInfo(Long uid, @NotNull @Email @Size(max = 100) String email, String name, RoleEnum role, DesignationEnum designation, Boolean firstSign, String imageUrl) {
-        this.uid = uid;
+    public UserInfo(String id, @NotNull @Email @Size(max = 100) String email, String name, RoleEnum role, DesignationEnum designation, Boolean firstSign, String imageUrl) {
+        this.id = id;
         this.email = email;
         this.name = name;
         this.firstSign = firstSign;
@@ -122,12 +107,12 @@ public class UserInfo implements Serializable {
 //        this.employeeRelation = employeeRelation;
 //    }
 
-    public Long getId() {
-        return uid;
+    public String getId() {
+        return id;
     }
 
-    public void setId(Long uid) {
-        this.uid = uid;
+    public void setId(String uid) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -149,7 +134,6 @@ public class UserInfo implements Serializable {
     public void setFirstSign(Boolean firstSign) {
         this.firstSign = firstSign;
     }
-
 
 
     public void setName(String name) {
@@ -194,21 +178,13 @@ public class UserInfo implements Serializable {
     @Override
     public String toString() {
         return "UserInfo{" +
-                "uid=" + uid +
+                "id=" + id +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", firstSign=" + firstSign +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", employeeRelation=" + employeeRelation +
                 '}';
-    }
-
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUid(Long uid) {
-        this.uid = uid;
     }
 
 }

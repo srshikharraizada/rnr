@@ -14,16 +14,6 @@ import java.util.Date;
 public class CheckValidity  {
 
 
-    private boolean isexpire;
-
-    private boolean getIsexpire() {
-        return isexpire;
-    }
-
-    private boolean setIsexpire(boolean isexpire) {
-        this.isexpire = isexpire;
-        return isexpire;
-    }
 
     @Value("${jwt.secret}")
     private String secret;

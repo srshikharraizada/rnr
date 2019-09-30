@@ -1,6 +1,6 @@
 package com.signon.enums;
 
-public enum  CategoryEnum {
+public enum CategoryEnum {
 
     Values,
     Job_Related,
