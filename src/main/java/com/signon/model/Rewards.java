@@ -1,9 +1,11 @@
 package com.signon.model;
 
+import com.signon.enums.CategoryEnum;
 import com.signon.enums.FrequencyEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -27,10 +29,18 @@ public class Rewards implements Serializable {
     private String description;
 
     @Column
-    private Date start_date;
+    private boolean regenerated=true;
+
 
     @Column
-    private Date end_date;
+    @Enumerated(EnumType.STRING)
+    private CategoryEnum category;
+
+    @Column
+    private LocalDate start_date;
+
+    @Column
+    private LocalDate end_date;
 
 
     @Column
@@ -77,22 +87,19 @@ public class Rewards implements Serializable {
 
     //nominations
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-
-                    CascadeType.MERGE,
-            },
-            mappedBy = "rewards2")
-    private Set<UserInfo> userInfo4 = new HashSet<>();
 
 
     public Rewards() {
     }
 
-    public Rewards(String reward_name, FrequencyEnum frequency, String description, Date start_date, Date end_date, boolean self_nominate, int nominations_allowed, int award_status, Date discontinuingDate, String discontinuingReason, List<RewardsCriterias> criterias, Set<UserInfo> userInfo4) {
+
+    public Rewards(long rewardId, String reward_name, FrequencyEnum frequency, String description, boolean regenerated, CategoryEnum category, LocalDate start_date, LocalDate end_date, boolean self_nominate, int nominations_allowed, int award_status, Date discontinuingDate, String discontinuingReason, List<RewardsCriterias> criterias, Set<UserInfo> userInfo4) {
+        this.rewardId = rewardId;
         this.reward_name = reward_name;
         this.frequency = frequency;
         this.description = description;
+        this.regenerated = regenerated;
+        this.category = category;
         this.start_date = start_date;
         this.end_date = end_date;
         this.self_nominate = self_nominate;
@@ -101,7 +108,6 @@ public class Rewards implements Serializable {
         this.discontinuingDate = discontinuingDate;
         this.discontinuingReason = discontinuingReason;
         this.criterias = criterias;
-        this.userInfo4 = userInfo4;
     }
 
     public long getId() {
@@ -136,19 +142,27 @@ public class Rewards implements Serializable {
         this.description = description;
     }
 
-    public Date getStart_date() {
+    public LocalDate getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public boolean isRegenerated() {
+        return regenerated;
+    }
+
+    public void setRegenerated(boolean regenerated) {
+        this.regenerated = regenerated;
+    }
+
+    public void setStart_date(LocalDate start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public LocalDate getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(LocalDate end_date) {
         this.end_date = end_date;
     }
 
@@ -211,13 +225,6 @@ public class Rewards implements Serializable {
 //    }
 
 
-    public Set<UserInfo> getUserInfo4() {
-        return userInfo4;
-    }
-
-    public void setUserInfo4(Set<UserInfo> userInfo4) {
-        this.userInfo4 = userInfo4;
-    }
 //
 //    public Set<RewardsCriterias> getRewardsCriterias() {
 //        return rewardsCriterias;
@@ -247,6 +254,15 @@ public class Rewards implements Serializable {
     }
 
 
+    public CategoryEnum getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryEnum category) {
+        this.category = category;
+    }
+
+
     @Override
     public String toString() {
         return "Rewards{" +
@@ -254,6 +270,7 @@ public class Rewards implements Serializable {
                 ", reward_name='" + reward_name + '\'' +
                 ", frequency=" + frequency +
                 ", description='" + description + '\'' +
+                ", category=" + category +
                 ", start_date=" + start_date +
                 ", end_date=" + end_date +
                 ", self_nominate=" + self_nominate +
@@ -262,8 +279,6 @@ public class Rewards implements Serializable {
                 ", discontinuingDate=" + discontinuingDate +
                 ", discontinuingReason='" + discontinuingReason + '\'' +
                 ", criterias=" + criterias +
-//                ", rewardsCriterias=" + rewardsCriterias +
-                ", userInfo4=" + userInfo4 +
                 '}';
     }
 

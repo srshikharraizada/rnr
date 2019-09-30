@@ -26,6 +26,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.security.Key;
 import java.util.*;
 
 @Service
@@ -37,6 +38,10 @@ public class LoginServiceImpl implements LoginService {
 
     @Value("${jwt.secret}")
     private String secret;
+
+   /* final Key signingKey = EncryptionUtil.getPrivateKey(
+            env.getProperty("service.jwt.secret"));*/
+
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
@@ -101,6 +106,7 @@ public class LoginServiceImpl implements LoginService {
                     userInfo1.setName(userInfo1.getName());
 
                     userRepository.save(userInfo1);
+
 
                     String generatedToken = Jwts.builder()
                             .setSubject(String.valueOf(email))

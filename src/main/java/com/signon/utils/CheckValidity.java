@@ -12,16 +12,6 @@ import java.util.Date;
 public class CheckValidity  {
 
 
-    private boolean isExpire;
-
-    private boolean getExpire() {
-        return isExpire;
-    }
-
-    private boolean setIsexpire(boolean isexpire) {
-        this.isExpire = isexpire;
-        return isexpire;
-    }
 
     @Value("${jwt.secret}")
     private String secret;
@@ -43,10 +33,11 @@ public class CheckValidity  {
     }
 
     private Claims extract(String token) {
-       return Jwts.parser()
+        Claims claims = Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
+        return claims;
     }
 
 

@@ -19,6 +19,9 @@ public class Nominations implements Serializable {
     @Column(name = "Reward_Id")
     private long rewardId;
 
+    @Column (name="disable")
+    private boolean disable=false;
+
 //
 //
 //    //Nominationscriterias
@@ -57,6 +60,13 @@ public class Nominations implements Serializable {
         this.rewardId = rewardId;
     }
 
+    public boolean isDisable() {
+        return disable;
+    }
+
+    public void setDisable(boolean disable) {
+        this.disable = disable;
+    }
 //
 //    public Set<Criterias> getCriterias2() {
 //        return criterias2;

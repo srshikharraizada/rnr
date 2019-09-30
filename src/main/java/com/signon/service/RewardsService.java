@@ -1,5 +1,6 @@
 package com.signon.service;
 
+import com.signon.model.Criterias;
 import com.signon.model.Rewards;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -13,7 +14,11 @@ public interface RewardsService {
 
     public Rewards updateAwardStatus(Long id, Rewards createreward);
 
+    public Rewards discontinuing(Long id, Rewards createreward);
+
     Optional<Rewards> findById(Long id);
+
+    List<Criterias> giveCriterias(Long id);
 
     Rewards save(Rewards rewards);
 
@@ -30,5 +35,8 @@ public interface RewardsService {
 //    Rewards function(Rewards reward);
 
     public ResponseEntity<?> rewardsSave(Rewards rewards);
+
+
+
 
 }

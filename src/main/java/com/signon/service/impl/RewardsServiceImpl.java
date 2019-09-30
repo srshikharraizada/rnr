@@ -1,9 +1,9 @@
 package com.signon.service.impl;
 
+import com.signon.enums.FrequencyEnum;
 import com.signon.model.Criterias;
 import com.signon.model.Rewards;
 import com.signon.model.RewardsCriterias;
-import com.signon.model.RewardsCriteriasId;
 import com.signon.repository.RewardsCriteriasRepository;
 import com.signon.repository.RewardsRepository;
 import com.signon.service.RewardsService;
@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +25,19 @@ public class RewardsServiceImpl implements RewardsService {
     @Autowired
     private RewardsCriteriasRepository rewardsCriteriasRepository;
 
+
+
+    String[] monthName = {"January", "February",
+            "March", "April", "May", "June", "July",
+            "August", "September", "October", "November",
+            "December"};
+
+    Calendar cal = Calendar.getInstance();
+    String month = monthName[cal.get(Calendar.MONTH)];
+
+    String year = String.valueOf(cal.get(Calendar.YEAR));
+
+
     @Override
     public Rewards save(Rewards rewards) {
         return rewardsRepository.save(rewards);
@@ -32,6 +45,7 @@ public class RewardsServiceImpl implements RewardsService {
 
     @Override
     public List<Rewards> findAll() {
+
         return (List<Rewards>) rewardsRepository.findAll();
     }
 
@@ -44,6 +58,11 @@ public class RewardsServiceImpl implements RewardsService {
     @Override
     public Optional<Rewards> findById(Long id) {
         return rewardsRepository.findById(id);
+    }
+
+    @Override
+    public List<Criterias> giveCriterias(Long id){
+        return rewardsRepository.giveCriterias(id);
     }
 
     @Override
@@ -98,8 +117,37 @@ public class RewardsServiceImpl implements RewardsService {
         return update;
     }
 
+
+    @Override
+    public Rewards discontinuing(Long id, Rewards createreward) {
+        Rewards Createaward1 = rewardsRepository.findById(id).get();
+        Createaward1.setReward_name(Createaward1.getReward_name());
+        Createaward1.setFrequency(Createaward1.getFrequency());
+        Createaward1.setDescription(Createaward1.getDescription());
+        Createaward1.setStart_date(Createaward1.getStart_date());
+        Createaward1.setEnd_date(Createaward1.getEnd_date());
+        Createaward1.setDiscontinuingDate(createreward.getDiscontinuingDate());
+        Createaward1.setDiscontinuingReason(createreward.getDiscontinuingReason());
+        Createaward1.setSelf_nominate(Createaward1.isSelf_nominate());
+        Createaward1.setNominations_allowed(Createaward1.getNominations_allowed());
+        Createaward1.setAward_status(createreward.getAward_status());
+
+        Rewards update = rewardsRepository.save(Createaward1);
+        return update;
+    }
+
     public ResponseEntity<?> rewardsSave(Rewards rewards) {
+
+
+
+        if(rewards.getFrequency()== FrequencyEnum.Annually)
+            rewards.setReward_name(rewards.getReward_name()+" for year " + year);
+
+        else
+            rewards.setReward_name(rewards.getReward_name()+" for month " + month);
+
         Rewards rewardData= save(rewards);
+
         long id = rewards.getId();
 
         RewardsCriterias rewardsCriterias=new RewardsCriterias();
