@@ -4,6 +4,7 @@ import com.signon.model.EmployeeRelation;
 import com.signon.model.Rewards;
 import com.signon.repository.EmployeeRelationRepository;
 import com.signon.service.EmployeeRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Transactional
 public class EmployeeRelationServiceImpl implements EmployeeRelationService {
 
+    @Autowired
     EmployeeRelationRepository employeeRelationRepository;
 
     @Override

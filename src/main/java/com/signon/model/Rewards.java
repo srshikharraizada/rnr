@@ -6,9 +6,7 @@ import com.signon.enums.FrequencyEnum;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="rewards")
@@ -17,7 +15,7 @@ public class Rewards implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Reward_Id",unique = true,nullable = false)
+    @Column(name = "reward_id",unique = true,nullable = false)
     private long rewardId;
 
     @Column
@@ -28,21 +26,21 @@ public class Rewards implements Serializable {
     private FrequencyEnum frequency;
 
     @Column
-    @Enumerated(EnumType.STRING)
-    private CategoryEnum category;
+    private String description;
+
+    @Column
+    private boolean regenerated=true;
 
 
     @Column
-    private String description;
+    @Enumerated(EnumType.STRING)
+    private CategoryEnum category;
 
     @Column
     private LocalDate start_date;
 
     @Column
     private LocalDate end_date;
-
-    @Column
-    private boolean regenerated=true;
 
 
     @Column
@@ -52,7 +50,7 @@ public class Rewards implements Serializable {
     private int nominations_allowed;
 
     @Column
-    private String award_status;
+    private int award_status = 0;
 
     @Column
     private Date discontinuingDate;
@@ -61,31 +59,71 @@ public class Rewards implements Serializable {
     private String discontinuingReason;
 
 
+    @OneToMany(
+            mappedBy = "rewards"
+    )
+    private List<RewardsCriterias> criterias = new ArrayList<>();
+
+
+/*
     //CRITERIAS
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
-                    CascadeType.PERSIST,
                     CascadeType.MERGE
             })
     @JoinTable(
             name = "rewards_criterias",
             joinColumns = {@JoinColumn(name = "Reward_Id")},
             inverseJoinColumns = {@JoinColumn(name = "Criterias_Id")}
-    )
-    private Set<Criterias> criterias = new HashSet<>();
 
+    )
+    private Set<RewardsCriterias> criterias= new HashSet<>();*/
+//    private Set<Criterias> criterias = new HashSet<>();
+
+
+   // private Set<RewardsCriterias> rewardsCriterias= new HashSet<>();
+
+
+    //nominations
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+
+                    CascadeType.MERGE,
+            },
+            mappedBy = "rewards2")
+    private Set<UserInfo> userInfo4 = new HashSet<>();
 
 
     public Rewards() {
     }
 
-    public long getRewardId() {
+
+    public Rewards(long rewardId, String reward_name, FrequencyEnum frequency, String description, boolean regenerated, CategoryEnum category, LocalDate start_date, LocalDate end_date, boolean self_nominate, int nominations_allowed, int award_status, Date discontinuingDate, String discontinuingReason, List<RewardsCriterias> criterias, Set<UserInfo> userInfo4) {
+        this.rewardId = rewardId;
+        this.reward_name = reward_name;
+        this.frequency = frequency;
+        this.description = description;
+        this.regenerated = regenerated;
+        this.category = category;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.self_nominate = self_nominate;
+        this.nominations_allowed = nominations_allowed;
+        this.award_status = award_status;
+        this.discontinuingDate = discontinuingDate;
+        this.discontinuingReason = discontinuingReason;
+        this.criterias = criterias;
+        this.userInfo4 = userInfo4;
+    }
+
+    public long getId() {
         return rewardId;
     }
 
-    public void setRewardId(long rewardId) {
-        this.rewardId = rewardId;
+    public void setId(long id) {
+        this.rewardId = id;
     }
 
     public String getReward_name() {
@@ -116,7 +154,15 @@ public class Rewards implements Serializable {
         return start_date;
     }
 
-    public void setStart_date(LocalDate  start_date) {
+    public boolean isRegenerated() {
+        return regenerated;
+    }
+
+    public void setRegenerated(boolean regenerated) {
+        this.regenerated = regenerated;
+    }
+
+    public void setStart_date(LocalDate start_date) {
         this.start_date = start_date;
     }
 
@@ -128,21 +174,6 @@ public class Rewards implements Serializable {
         this.end_date = end_date;
     }
 
-    public boolean isRegenerated() {
-        return regenerated;
-    }
-
-    public void setRegenerated(boolean regenerated) {
-        this.regenerated = regenerated;
-    }
-
-    public CategoryEnum getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryEnum category) {
-        this.category = category;
-    }
 
     public boolean isSelf_nominate() {
         return self_nominate;
@@ -160,11 +191,11 @@ public class Rewards implements Serializable {
         this.nominations_allowed = nominations_allowed;
     }
 
-    public String getAward_status() {
+    public int getAward_status() {
         return award_status;
     }
 
-    public void setAward_status(String award_status) {
+    public void setAward_status(int award_status) {
         this.award_status = award_status;
     }
 
@@ -184,30 +215,99 @@ public class Rewards implements Serializable {
         this.discontinuingReason = discontinuingReason;
     }
 
-
-    public Set<Criterias> getCriterias() {
+    public List<RewardsCriterias> getCriterias() {
         return criterias;
     }
 
-    public void setCriterias(Set<Criterias> criterias) {
+    public void setCriterias(List<RewardsCriterias> criterias) {
         this.criterias = criterias;
     }
+
+
+    //    public Set<Criterias> getCriterias() {
+//        return criterias;
+//    }
+//
+//    public void setCriterias(Set<Criterias> criterias) {
+//        this.criterias = criterias;
+//    }
+
+
+    public Set<UserInfo> getUserInfo4() {
+        return userInfo4;
+    }
+
+    public void setUserInfo4(Set<UserInfo> userInfo4) {
+        this.userInfo4 = userInfo4;
+    }
+//
+//    public Set<RewardsCriterias> getRewardsCriterias() {
+//        return rewardsCriterias;
+//    }
+//
+//    public void setRewardsCriterias(Set<RewardsCriterias> rewardsCriterias) {
+//        this.rewardsCriterias = rewardsCriterias;
+//    }
+
+/*
+
+    public Set<RewardsCriterias> getCriterias() {
+        return criterias;
+    }
+
+    public void setCriterias(Set<RewardsCriterias> criterias) {
+        this.criterias = criterias;
+    }
+*/
+
+    public long getRewardId() {
+        return rewardId;
+    }
+
+    public void setRewardId(long rewardId) {
+        this.rewardId = rewardId;
+    }
+
+
+    public CategoryEnum getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryEnum category) {
+        this.category = category;
+    }
+
 
     @Override
     public String toString() {
         return "Rewards{" +
-                "id=" + rewardId +
+                "rewardId=" + rewardId +
                 ", reward_name='" + reward_name + '\'' +
                 ", frequency=" + frequency +
                 ", description='" + description + '\'' +
+                ", category=" + category +
                 ", start_date=" + start_date +
                 ", end_date=" + end_date +
-
                 ", self_nominate=" + self_nominate +
                 ", nominations_allowed=" + nominations_allowed +
-                ", award_status='" + award_status + '\'' +
+                ", award_status=" + award_status +
                 ", discontinuingDate=" + discontinuingDate +
                 ", discontinuingReason='" + discontinuingReason + '\'' +
+                ", criterias=" + criterias +
+                ", userInfo4=" + userInfo4 +
                 '}';
     }
+
+   /* public void add(Tag tag) {
+        PostTag postTag = new PostTag(this, tag);
+        tags.add(postTag);
+        tag.getPosts().add(postTag);*/
+//    }
+
+
+
+
+
+
+
 }

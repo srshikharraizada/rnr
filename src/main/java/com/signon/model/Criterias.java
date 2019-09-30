@@ -2,38 +2,80 @@ package com.signon.model;
 
 
 import com.signon.enums.DesignationEnum;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="criterias")
-public class Criterias implements Serializable {
+public class Criterias implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Criterias_Id",unique = true,nullable = false)
+    @Column(name = "criteria_Id")
     private long criteriaId;
 
     @Column(name="criterias_desc",nullable = false)
     private String criterias_desc;
 
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-            },
+
+    @OneToMany(
             mappedBy = "criterias")
-    private Set<Rewards> rewards1 = new HashSet<>();
+    private List<RewardsCriterias> rewards = new ArrayList<>();
+
+    public List<RewardsCriterias> getRewards() {
+        return rewards;
+    }
+
+    public void setRewards(List<RewardsCriterias> rewards) {
+        this.rewards = rewards;
+    }
+
+//
+//    //rewards
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.MERGE,
+//            },
+//            mappedBy = "criterias")
+//    private Set<Rewards> rewards1 = new HashSet<>();
+//
+//
+
+//
+//    //nominationscriterias
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE,
+//            },
+//            mappedBy = "criterias2")
+//    private Set<Nominations> nominations = new HashSet<>();
+//
+//
+
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            })
+//    @JoinTable(
+//            name = "nominations_criterias",
+//            joinColumns = {@JoinColumn(name = "Criterias_Id")},
+//            inverseJoinColumns = {@JoinColumn(name = "User_Id"),@JoinColumn(name = "Reward_Id")}
+//    )
+//    private Set<Nominations> nominations = new HashSet<>();
+
 
     public Criterias() {
     }
 
-    public Criterias(long criteriaId, String criterias_desc) {
-        this.criteriaId = criteriaId;
+    public Criterias(String criterias_desc) {
         this.criterias_desc = criterias_desc;
     }
 
@@ -52,14 +94,22 @@ public class Criterias implements Serializable {
     public void setCriterias_desc(String criterias_desc) {
         this.criterias_desc = criterias_desc;
     }
+//
+//    public Set<Rewards> getRewards1() {
+//        return rewards1;
+//    }
+//
+//    public void setRewards1(Set<Rewards> rewards1) {
+//        this.rewards1 = rewards1;
+//    }
 
-    public Set<Rewards> getRewards1() {
-        return rewards1;
-    }
-
-    public void setRewards1(Set<Rewards> rewards1) {
-        this.rewards1 = rewards1;
-    }
+//    public Set<Nominations> getNominations() {
+//        return nominations;
+//    }
+//
+//    public void setNominations(Set<Nominations> nominations) {
+//        this.nominations = nominations;
+//    }
 
     @Override
     public String toString() {
@@ -68,4 +118,8 @@ public class Criterias implements Serializable {
                 ", criterias_desc='" + criterias_desc + '\'' +
                 '}';
     }
+
+
+
+
 }

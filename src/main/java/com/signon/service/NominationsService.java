@@ -1,10 +1,23 @@
 package com.signon.service;
 
-import com.signon.dto.NominationPojo;
-import org.springframework.http.ResponseEntity;
+import com.signon.model.Nominations;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface NominationsService {
 
-    ResponseEntity<?> nominationsave(NominationPojo nominationPojo);
+    Optional<Nominations> findById(Long id);
+
+    Nominations save(Nominations nominations);
+
+
+    List<Nominations> findAll();
+
+    void deleteById(long id);
+
+
 
 }
+
+

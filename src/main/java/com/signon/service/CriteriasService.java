@@ -10,7 +10,7 @@ public interface CriteriasService {
 
     Optional<Criterias> findById(Long id);
 
-    Criterias save(Criterias criterias);
+    Criterias saveCriteria(Criterias criterias);
 
 
     List<Criterias> findAll();

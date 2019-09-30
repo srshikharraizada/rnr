@@ -1,9 +1,8 @@
 package com.signon.controller;
 
-import com.signon.model.Rewards;
 import com.signon.model.UserInfo;
-import com.signon.utils.CheckValidity;
 import com.signon.service.LoginService;
+import com.signon.utils.CheckValidity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+// don't know
 @CrossOrigin
 @RestController
 public class LoginController {

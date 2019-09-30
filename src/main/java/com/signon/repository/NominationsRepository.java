@@ -4,10 +4,12 @@ import com.signon.model.Nominations;
 import com.signon.model.Rewards;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface NominationsRepository extends CrudRepository<Nominations, String> {
+@Repository
+public interface NominationsRepository extends CrudRepository<Nominations, Long> {
 
     @Query(value = "select nomination_id from nominations where user_id=?1, rewardid=?2", nativeQuery = true)
     public long getNominationId(String user_id,long reward_id);

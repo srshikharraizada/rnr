@@ -4,6 +4,7 @@ import com.signon.model.Rewards;
 import com.signon.service.RewardsService;
 import com.signon.utils.CheckValidity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,28 +23,32 @@ public class RewardsController {
 
 
     @PostMapping("/save")
-    public Rewards save(@RequestHeader(value = "Authorization") String token , @RequestBody Rewards rewards) throws Exception{
+    public ResponseEntity<?> save(@RequestHeader(value = "Authorization") String token , @RequestBody Rewards rewards) throws Exception{
 
         String email=validity.check(token);
 
-        rewardsService.save(rewards);
+       return rewardsService.rewardsSave(rewards);
 
-        return rewards;
+
     }
 
+    @PutMapping("/updateAwardStatus/{id}")
+    public Rewards updateAwardStatus(@PathVariable Long id, @RequestBody Rewards createreward){
+        return rewardsService.updateAwardStatus(id, createreward);
+    }
+
+    @PutMapping("/discontinuing/{id}")
+    public Rewards discontinuing(@PathVariable Long id, @RequestBody Rewards createreward){
+        return rewardsService.discontinuing(id, createreward);
+    }
 
     @GetMapping("/listrewards")
     public List<Rewards> list(@RequestHeader(value = "Authorization") String token){
-
-        String email=validity.check(token);
-
         return rewardsService.findAll();
     }
 
     @GetMapping("/listrewards/{id}")
     public Optional<Rewards> getById(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
-
-        String email=validity.check(token);
 
         return rewardsService.findById(id);
     }
@@ -51,9 +56,6 @@ public class RewardsController {
 
     @DeleteMapping("/deleterewards/{id}")
     public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
-
-        String email=validity.check(token);
-
         rewardsService.deleteById(id);
         return "Deleted Successfully";
     }

@@ -1,11 +1,10 @@
 package com.signon.service.impl;
 
 
-import com.signon.model.Designation;
 import com.signon.model.Roles;
-import com.signon.repository.DesignationRepository;
 import com.signon.repository.RolesRepository;
 import com.signon.service.RolesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +15,7 @@ import java.util.Optional;
 @Transactional
 public class RolesServiceImpl implements RolesService {
 
+    @Autowired
     RolesRepository rolesRepository;
 
 
@@ -31,7 +31,6 @@ public class RolesServiceImpl implements RolesService {
 
     @Override
     public void deleteById(long id) {
-
         rolesRepository.deleteById(id);
     }
 

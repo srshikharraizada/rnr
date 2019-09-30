@@ -2,8 +2,10 @@ package com.signon.utils;
 
 import com.signon.enums.FrequencyEnum;
 import com.signon.model.Rewards;
+import com.signon.model.RewardsCriterias;
+import com.signon.repository.RewardsCriteriasRepository;
 import com.signon.repository.RewardsRepository;
-
+import com.signon.service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -11,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Set;
 
 
 @Component
@@ -21,6 +25,12 @@ public class ScheduleRewards {
 
     @Autowired
     private RewardsRepository rewardsRepository;
+
+    @Autowired
+    private RewardsCriteriasRepository rewardsCriteriasRepository;
+
+    @Autowired
+    private RewardsService rewardsService;
 
 
     private Rewards rewards;
@@ -32,7 +42,6 @@ public class ScheduleRewards {
 
 
     //Checking for regenration of  monthly reward whose end date has passed daily at 12 a.m.
-    // @Scheduled(cron = "0 0 0 1/31 * ? ")
     //   @Scheduled(cron = "0 0 0 1/1 * ? ")
     @Scheduled(cron="0 0/1 * 1/1 * ?")
     public void scheduleMonthly() throws ParseException {
@@ -40,7 +49,7 @@ public class ScheduleRewards {
 
         ArrayList<Rewards> list = (ArrayList<Rewards>) rewardsRepository.findAll();
 
-        int i=0;  int count=0;
+        int i=0;
 
         while(i<list.size()){
             Rewards old_reward = list.get(i);
@@ -71,15 +80,44 @@ public class ScheduleRewards {
                 new_reward.setSelf_nominate(old_reward.isSelf_nominate());
                 new_reward.setFrequency(old_reward.getFrequency());
                 new_reward.setDescription(old_reward.getDescription());
-                new_reward.setCriterias(old_reward.getCriterias());
                 new_reward.setCategory(old_reward.getCategory());
                 new_reward.setRegenerated(true);
                 new_reward.setStart_date(old_reward.getEnd_date());
                 LocalDate d3 = new_reward.getStart_date();
                 LocalDate ed=d3.plusMonths(1);
                 new_reward.setEnd_date(ed);
+                new_reward.setAward_status(0);
 
-                rewardsRepository.save(new_reward);
+                rewardsService.rewardsSave(new_reward);
+
+               Set<RewardsCriterias> criterias= rewardsCriteriasRepository.findByRewardId(old_reward.getId());
+/*
+                for(int j=0;j<criterias.size();j++)
+                {
+                    RewardsCriterias rewardsCriterias = new RewardsCriterias();
+                    RewardsCriterias rewardsCriterias1=criterias.iterator(j);
+
+                    rewardsCriterias.setRewardId(new_reward.getId());
+                    rewardsCriterias.setCriteriaId(criterias.get(j)getCriteriaId());
+                    rewardsCriterias.setCompulsory(rewards.getCriterias().get(i).getCompulsory());
+
+                    rewardsCriteriasRepository.save(rewardsCriterias);
+
+                }*/
+
+                for (Iterator<RewardsCriterias> it = criterias.iterator(); it.hasNext(); ) {
+                    RewardsCriterias f = it.next();
+
+                    RewardsCriterias rewardsCriterias = new RewardsCriterias();
+                    rewardsCriterias.setRewardId(new_reward.getId());
+                    rewardsCriterias.setCriteriaId(f.getCriteriaId());
+                    rewardsCriterias.setCompulsory(f.getCompulsory());
+
+                    rewardsCriteriasRepository.save(rewardsCriterias);
+
+                }
+
+
 
             }
 
@@ -87,24 +125,17 @@ public class ScheduleRewards {
 
         }
     }
-    // var reward = list.get(i);
-    //if(reward.freq === 'monthly')
-    //if(reward.enddate > todays date)
-    // create reward query with previous data and reward name + 1,  starting date = reward.previous_end_date,
-    // end date=  starting_date - frequncy
-    //insert row to table
-
 
 
     //Regenerating quarterly rewards starting from 1st of the month{jan, april, july, october} at 12 a.m.
     //Checking for regenration of  monthly reward whose end date has passed every sunday at 12 a.m.
     // @Scheduled(cron = "0 0 0 ? * SUN ")
     @Scheduled(cron="0 0/2 * 1/1 * ?")
-    private void scheduleQuarterly() throws ParseException {
+    public void scheduleQuarterly() throws ParseException {
 
         ArrayList<Rewards> list = (ArrayList<Rewards>) rewardsRepository.findAll();
 
-        int i=0;  int count=0;
+        int i=0;
 
         while(i<list.size()){
             Rewards old_reward = list.get(i);
@@ -135,15 +166,32 @@ public class ScheduleRewards {
                 new_reward.setSelf_nominate(old_reward.isSelf_nominate());
                 new_reward.setFrequency(old_reward.getFrequency());
                 new_reward.setDescription(old_reward.getDescription());
-                new_reward.setCriterias(old_reward.getCriterias());
                 new_reward.setCategory(old_reward.getCategory());
                 new_reward.setRegenerated(true);
                 new_reward.setStart_date(old_reward.getEnd_date());
                 LocalDate d3 = new_reward.getStart_date();
                 LocalDate ed=d3.plusMonths(4);
                 new_reward.setEnd_date(ed);
+                new_reward.setAward_status(0);
 
-                rewardsRepository.save(new_reward);
+
+                rewardsService.rewardsSave(new_reward);
+
+                Set<RewardsCriterias> criterias= rewardsCriteriasRepository.findByRewardId(old_reward.getId());
+
+
+                for (Iterator<RewardsCriterias> it = criterias.iterator(); it.hasNext(); ) {
+                    RewardsCriterias f = it.next();
+
+                    RewardsCriterias rewardsCriterias = new RewardsCriterias();
+                    rewardsCriterias.setRewardId(new_reward.getId());
+                    rewardsCriterias.setCriteriaId(f.getCriteriaId());
+                    rewardsCriterias.setCompulsory(f.getCompulsory());
+
+                    rewardsCriteriasRepository.save(rewardsCriterias);
+
+                }
+
 
                 //System.out.println(list.get(i));
             }
@@ -158,12 +206,12 @@ public class ScheduleRewards {
     @Scheduled(cron = "0 0 12 1 1/1 ? ")
     //  @Scheduled(cron="0 0/3 * 1/1 * ?")
 
-    private void scheduleYearly() throws ParseException {
+    public void scheduleYearly() throws ParseException {
 
 
         ArrayList<Rewards> list = (ArrayList<Rewards>) rewardsRepository.findAll();
 
-        int i=0;  int count=0;
+        int i=0;
 
         while(i<list.size()){
             Rewards old_reward = list.get(i);
@@ -194,17 +242,31 @@ public class ScheduleRewards {
                 new_reward.setSelf_nominate(old_reward.isSelf_nominate());
                 new_reward.setFrequency(old_reward.getFrequency());
                 new_reward.setDescription(old_reward.getDescription());
-                new_reward.setCriterias(old_reward.getCriterias());
                 new_reward.setCategory(old_reward.getCategory());
                 new_reward.setRegenerated(true);
                 new_reward.setStart_date(old_reward.getEnd_date());
                 LocalDate d3 = new_reward.getStart_date();
                 LocalDate ed=d3.plusYears(1);
                 new_reward.setEnd_date(ed);
+                new_reward.setAward_status(0);
 
 
-                rewardsRepository.save(new_reward);
+                rewardsService.rewardsSave(new_reward);
 
+
+                Set<RewardsCriterias> criterias= rewardsCriteriasRepository.findByRewardId(old_reward.getId());
+
+                for (Iterator<RewardsCriterias> it = criterias.iterator(); it.hasNext(); ) {
+                    RewardsCriterias f = it.next();
+
+                    RewardsCriterias rewardsCriterias = new RewardsCriterias();
+                    rewardsCriterias.setRewardId(new_reward.getId());
+                    rewardsCriterias.setCriteriaId(f.getCriteriaId());
+                    rewardsCriterias.setCompulsory(f.getCompulsory());
+
+                    rewardsCriteriasRepository.save(rewardsCriterias);
+
+                }
                 // System.out.println(list.get(i));
             }
 

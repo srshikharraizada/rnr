@@ -1,8 +1,6 @@
 package com.signon.controller;
 
 import com.signon.model.EmployeeRelation;
-
-import com.signon.model.Rewards;
 import com.signon.service.EmployeeRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +16,8 @@ public class EmployeeRelationController {
     private EmployeeRelationService employeeRelationService;
 
     @PostMapping("/saveemp")
-    public EmployeeRelation save(@RequestHeader(value = "Authorization") String token, @RequestBody EmployeeRelation employeeRelation){
+    public EmployeeRelation save(@RequestHeader(value = "Authorization") String token,
+                                 @RequestBody EmployeeRelation employeeRelation){
         return employeeRelationService.save(employeeRelation);
     }
 
@@ -34,7 +33,8 @@ public class EmployeeRelationController {
     }
 
     @GetMapping("/listemp/{id}")
-    public Optional<EmployeeRelation> getById(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
+    public Optional<EmployeeRelation> getById(@RequestHeader(value = "Authorization")
+                                                          String token, @PathVariable Long id){
 
         return employeeRelationService.findById(id);
     }
