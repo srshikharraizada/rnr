@@ -30,7 +30,7 @@ public interface RewardsRepository extends CrudRepository<Rewards, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "Update rewards set regenerated=false where id=?1", nativeQuery = true)
+    @Query(value = "Update rewards set regenerated=false where reward_id=?1", nativeQuery = true)
     void updateToNull(long id);
 
 

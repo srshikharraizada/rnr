@@ -19,7 +19,7 @@ public interface NominationsRepository extends CrudRepository<Nominations, Long>
     void setDisable(String user_id);
 
 
-    @Query(value = "select * from rewards where id in(select rewardid from nominations where disable=false )",nativeQuery = true)
+    @Query(value = "select * from rewards where reward_id in(select reward_id from nominations where disable=false )",nativeQuery = true)
     List<Rewards> getRewards();
 
 }

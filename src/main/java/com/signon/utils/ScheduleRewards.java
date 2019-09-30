@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Component
 @Service
-public class ScheduleRewards {
+public class ScheduleRewards<monthName> {
 
     @Autowired
     private RewardsRepository rewardsRepository;
@@ -35,7 +35,7 @@ public class ScheduleRewards {
 
     private Rewards rewards;
 
-    String[] monthName = {"January", "February",
+    private String[] monthName = {"January", "February",
             "March", "April", "May", "June", "July",
             "August", "September", "October", "November",
             "December"};
@@ -88,7 +88,7 @@ public class ScheduleRewards {
                 new_reward.setEnd_date(ed);
                 new_reward.setAward_status(0);
 
-                rewardsService.rewardsSave(new_reward);
+                rewardsService.save(new_reward);
 
                Set<RewardsCriterias> criterias= rewardsCriteriasRepository.findByRewardId(old_reward.getId());
 /*
@@ -105,7 +105,8 @@ public class ScheduleRewards {
 
                 }*/
 
-                for (Iterator<RewardsCriterias> it = criterias.iterator(); it.hasNext(); ) {
+                for (Iterator<RewardsCriterias> it = criterias.iterator();
+                     it.hasNext(); ) {
                     RewardsCriterias f = it.next();
 
                     RewardsCriterias rewardsCriterias = new RewardsCriterias();
@@ -175,7 +176,7 @@ public class ScheduleRewards {
                 new_reward.setAward_status(0);
 
 
-                rewardsService.rewardsSave(new_reward);
+                rewardsService.save(new_reward);
 
                 Set<RewardsCriterias> criterias= rewardsCriteriasRepository.findByRewardId(old_reward.getId());
 
@@ -251,7 +252,7 @@ public class ScheduleRewards {
                 new_reward.setAward_status(0);
 
 
-                rewardsService.rewardsSave(new_reward);
+                rewardsService.save(new_reward);
 
 
                 Set<RewardsCriterias> criterias= rewardsCriteriasRepository.findByRewardId(old_reward.getId());

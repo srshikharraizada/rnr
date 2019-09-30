@@ -39,7 +39,9 @@ public class RewardsServiceImpl implements RewardsService {
 
     @Override
     public Rewards save(Rewards rewards) {
-        return rewardsRepository.save(rewards);
+
+       return rewardsRepository.save(rewards);
+
     }
 
     @Override
