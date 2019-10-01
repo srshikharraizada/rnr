@@ -45,6 +45,10 @@ public class LoginController {
         return loginService.findById(id);
     }
 
+    @GetMapping("/listUsersByEmail/{email}")
+    public Optional<UserInfo> findByemail(String email) {
+        return loginService.findByemail(email);
+    }
 
     @DeleteMapping("/deleteUsers/{id}")
     public String delete(@RequestHeader(value = "Authorization") String token, @PathVariable long id){
